@@ -1,23 +1,5 @@
-* {
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-}
-
 body {
-    -webkit-touch-callout: none;
-    -webkit-text-size-adjust: none;
-    -webkit-user-select: none;
-	background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #A7A7A7),
-        color-stop(0.51, #E4E4E4)
-    );
-    background-attachment:fixed;
+
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     height:100%;
@@ -25,32 +7,10 @@ body {
     padding:0px;
     text-transform:uppercase;
     width:100%;
-	
     background-color:#32383d;
     font-family: 'RobotoRegular', 'Droid Sans', 'Segoe UI', Segoe, 'San Francisco', 'Helvetica Neue', Helvetica, Arial, Geneva, sans-serif;
     font-size:12px;
 }
-
-.app {
-    background: url(../images/cordova.png) no-repeat center top; 
-    position: absolute;             
-    left: 50%;
-    top: 50%;
-    height: 50px;                  
-    width: 225px;                   
-    text-align: center;
-    padding: 180px 0px 0px 0px;     
-    margin: -115px 0px 0px -112px;
-}
-
-@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
-    .app {
-        background-position:left center;
-        padding:75px 0px 75px 170px;
-        margin:-90px 0px 0px -198px;
-    }
-}
-
 h1 {
     font-size:24px;
     font-weight:normal;
@@ -59,39 +19,91 @@ h1 {
     padding:0px;
     text-align:center;
 }
+#myInput {
+    background-image: url('icons/Search-48.png');
+    background-position: 10px 12px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+table, tr, td {
+    height: 60px;
+    padding: 0px;
+}
+.searchA {
+    background-image: url('/www/images/Search-48.png');
+    background-position: 10px 12px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+@media screen and (max-width: 480px) {
+    #right {
+        display: none;
+    }
 
-.event {
-    border-radius:4px;
-    -webkit-border-radius:4px;
-    color:#FFFFFF;
-    font-size:12px;
-    margin:0px 30px;
-    padding:2px 0px;
-}
+    #btnBack {
+        display: initial;
+    }
 
-.event.listening {
-    background-color:#333333;
-    display:block;
+    #left {
+        width: 100%;
+        
+    }
+    .ArtistBild {
+        vertical-align: top;
+        list-style-image: url('/www/images/MetalMusic50.png');
+    }
 }
-
-.event.received {
-    background-color:#4B946A;
-    display:none;
+.imgCover {
+    height: 250px;
+    width: 250px;
+    padding-bottom: 5px;
+    
 }
-
-@keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    to { opacity: 1.0; }
+.inner_box {
+    position: absolute;
+    background: rgba(255,255,255,0.7);
+    bottom: 2px;
+    left: 10px;
+    transform: translate(-50%,-50%);
+    padding: 7px;
+    text-align: center;
+    width:100%
 }
- 
-@-webkit-keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    to { opacity: 1.0; }
+.containerCover {
+    border:solid;
+    padding-bottom:5px;
 }
- 
-.blink {
-    animation:fade 3000ms infinite;
-    -webkit-animation:fade 3000ms infinite;
+.bottomLeftCover {
+    background: #111;
+    background: rgba(0,0,0,.8);
+    padding: 12px;
+    position: absolute;
+    bottom: 0px;
+    left: 16px;
+    font-size: 12px;
+    font-weight: bold;
+    width: 247px;
+    color: white;
+}
+.divCover{
+    padding-bottom : 5px;
+}
+.boxShadow {
+    -moz-box-shadow: 0px 0px 9px #111;
+    -webkit-box-shadow: 0px 0px 9px #111;
+    box-shadow: 0px 0px 9px #111;
+}
+.wraper{
+    display:grid;
+    grid-gap: 5px;
+    grid-template-columns : repeat(auto-fill, minmax(250px, 1fr));
+    margin-bottom:2em;
 }

@@ -1,29 +1,89 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
     <!--
         Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
         For details, see http://go.microsoft.com/fwlink/?LinkID=617521
-    -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
-        
+    
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
+        <access origin="*" />
+        <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; media-src *; img-src * filesystem: data:">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: http://cdmolnet.se 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src; frame-src *">
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link href="css/font-awesome.min.css" rel="stylesheet" />
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href="css/bootstrap-grid.min.css" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" href="css/index.css">
         <title>MyRecordsJS</title>
-    </head>
+        <style>
+            
+            #left {
+                float: left;
+                width: 315px;
+                overflow: auto;
+                height: 100%;
+            }
+
+            #right {
+                overflow: auto;
+                height: 98vh;
+                padding-left: 5px;
+                /*width: 100%;*/
+            }
+
+            #wrapper {
+                height: 98vh;
+            }
+           
+        </style>
+     </head>
     <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">WebSiteName</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#" id="btnTest"><span class="glyphicon  glyphicon-music"></span> All my records</a></li>
+                        <li><a href="#"><span class="glyphicon  glyphicon-cd"></span> My CD</a></li>
+                        <li><a href="#"><span class="glyphicon  glyphicon-cd"></span> My vinyls</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    </ul>
+                    
+                </div>
             </div>
-        </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="scripts/platformOverrides.js"></script>
-        <script type="text/javascript" src="scripts/index.js"></script>
-    </body>
+        </nav>
+            <!--<button id="btnTest">Hämta artister</button>
+        <input type="text" id="myInput" class="search" placeholder="Search for artists.." title="Type in a name">'-->
+        
+        <div id="wrapper">
+            <!--<form role="form">
+                <div class="form-group">
+                    <input class="form-control" id="searchinput" type="search" placeholder="Search..." style="width:250px;">
+                    </div>-->
+                    <div id="left" class="list-group">Left side div</div>
+            <!--</form>-->
+                <div id="right">Right side div</div>
+       </div>
+            <script src="scripts/jquery-3.1.1.min.js"></script>
+            <script src="scripts/bootstrap.min.js"></script>
+            <script type="text/javascript" src="cordova.js"></script>
+            <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+            <script type="text/javascript" src="scripts/index.js"></script>
+            <script src="scripts/bootstrap-list-filter.src.js"></script>
+
+</body>
 </html>
