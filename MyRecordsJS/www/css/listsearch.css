@@ -1,0 +1,186 @@
+﻿
+/* this declares a better box model */
+
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.list-wrap label {
+    float: left;
+    color: #9bc3e9;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 1.2em;
+}
+
+.search-box {
+    float: left;
+    clear: left;
+    width: 80%;
+    padding: 0.4em;
+    font-size: 1em;
+    color: #555;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.list-count {
+    float: left;
+    text-align: center;
+    width: 50%;
+    padding: 0.5em;
+    color: #000;
+}
+
+li {
+    transition-property: margin, background-color, border-color;
+    transition-duration: .4s, .2s, .2s;
+    transition-timing-function: ease-in-out, ease, ease;
+}
+
+.empty-item {
+    transition-property: opacity;
+    transition-duration: 0s;
+    transition-delay: 0s;
+    transition-timing-function: ease;
+}
+
+.empty .empty-item {
+    transition-property: opacity;
+    transition-duration: .2s;
+    transition-delay: .3s;
+    transition-timing-function: ease;
+}
+
+.hiding {
+    margin-left: -100%;
+    opacity: 0.5;
+}
+
+.hidden {
+    display: none;
+}
+
+ul {
+    float: left;
+    width: 100%;
+    margin: 2em 0;
+    padding: 0;
+    position: relative;
+}
+
+li {
+    float: left;
+    clear: left;
+    width: 80%;
+    margin: 0.2em 0;
+    padding: 0.5em 0.8em;
+    list-style: none;
+    background-color: #f2f2f2;
+    border-left: 5px solid #003842;
+    cursor: pointer;
+    color: #333;
+    position: relative;
+    z-index: 2;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+    li:hover {
+        background-color: #f9f9f9;
+        border-color: #9bc3e9;
+    }
+
+.empty-item {
+    background: #fff;
+    color: #ddd;
+    margin: 0.2em 0;
+    padding: 0.5em 0.8em;
+    font-style: italic;
+    border: none;
+    text-align: center;
+    visibility: hidden;
+    opacity: 0;
+    float: left;
+    clear: left;
+    width: 100%;
+}
+
+.empty .empty-item {
+    opacity: 1;
+    visibility: visible;
+}
+
+/*
+The following are styles purely for the surroundings
+*/
+
+
+
+
+body {
+    background-color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    padding: 0;
+    font-size: 1em;
+}
+
+img {
+    margin: auto;
+    display: block;
+}
+
+a {
+    color: #00BDE8;
+}
+
+h1 {
+    font-size: 2.6em;
+    margin: 0;
+    padding-top: 1.5em;
+    text-align: center;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+h3 {
+    margin: 0 0 2em;
+    text-align: center;
+    font-weight: normal;
+    font-family: georgia, times;
+    font-style: italic;
+    color: #777;
+    font-size: 1em;
+}
+
+.info {
+    float: left;
+    width: 60%;
+    margin: 2em 20%;
+    padding: 2em 0;
+    background: #f9f9f9;
+    border-left: 5px solid #003842;
+    padding: 10px 20px;
+}
+
+.list-wrap {
+    float: left;
+    width: 60%;
+    margin: 2em 10%;
+    padding: 2em 0;
+}
+
+p {
+    text-align: left;
+    font-size: 1em;
+}
+
+.cta a {
+    font-size: 1.5em;
+    font-style: normal;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-decoration: none;
+    line-height: 1.5em;
+}

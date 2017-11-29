@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <access origin="*" />
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; media-src *; img-src * filesystem: data:">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap:http://cdmolnet.se 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src; frame-src *">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-grid.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link href="css/listsearch.css" rel="stylesheet" />
+    <link href="css/sweetalert.css" rel="stylesheet" />
+    <link href="css/menu.css" rel="stylesheet" />
+    <script src="scripts/jquery-3.1.1.min.js"></script>
+    <script src="scripts/sweetalert.min.js"></script>
+    <script src="scripts/allalbums.js"></script>
+    <title>MyRecords</title>
+    <script>
+        $(document).ready(function () {
+            checkinlogg();
+           
+        });
+        $(document).on('click', '#lstA', function (ev) {
+            var uid = $(this).data('id');
+            getAlbumVinyl(uid);
+        });
+        function checkinlogg() {
+            if (localStorage.inloggad == 'Ja') {
+                swal("Getting your vinyls!!", "Info");
+                getArtistVinyl(localStorage.id);
+            } else {
+                swal("Logga in eller skapa ett konto så kommer du sidan !!", "warning");
+                window.location.href("index.html");
+            }
+        }
+        $(document).on('click', '#imgA', function (ev) {
+            var uid = $(this).data('id');
+            var b = '<img src="' + uid + '" class="modalBild">';
+            $('#inBild').modal('show');
+            $("#BildA").html(b);
+        });
+        $(document).on('click', '#tracks', function (ev) {
+            var uid = $(this).data('id');
+            getTracks(uid);
+        });
+    </script>
+    <style>
+        .list-group {
+            list-style: decimal inside;
+        }
+
+        .list-group-item {
+            display: list-item;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header" style="padding-left: 10px">
+                <!--<button type="button" class="btn btn-warning navbar-btn pull-left" id="btnHome">-->
+                <a href="index.html" class="btn btn-warning navbar-btn pull-left" style="display: inline-block; top:50%;" role="button">
+                    <span class="glyphicon glyphicon glyphicon-home"></span>
+                </a>
+                <!--</button>-->
+                <div class="navbar-text navbar-brand-centered">All my Records</div>
+            </div>
+        </div>
+    </nav>
+    <div id="mainDiv" class="container">
+        <div id="left">
+            <section id="leftsection" class="list-wrap">
+                <input type="text" id="search-text" placeholder="Search" class="search-box">
+                <span class="list-count"></span>
+                <ul id="list" class"ul-serchlist"></ul>
+            </section>
+        </div>
+        <div id="right" style="padding-left:15px;"></div>
+    </div>
+    <!--modal för bild-->
+    <div class="modal fade" id="inBild">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title text-center">Now playing</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" width="90%">
+                    <div id="BildA">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal för tracks-->
+    <div class="modal fade" id="inTracks">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title text-center">Tracks</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" width="90%">
+                    <div id="lstTracks">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+    <script type="text/javascript" src="scripts/index.js"></script>
+    <script src="scripts/listsearch.js"></script>
+</body>
+</html>

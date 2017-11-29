@@ -5,10 +5,6 @@
 (function () {
     "use strict";
     document.addEventListener('deviceready', onDeviceReady.bind(this), false);
-    $(document).on('click', '#lstA', function (ev) {
-        var uid = $(this).data('id');
-        getAlbum(uid);
-    });
     $(document).on('click', '#btnBack', function (ev) {
         $("#right").hide();
         $("#left").show();
@@ -18,12 +14,6 @@
         // Handle the Cordova pause and resume events
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
-        $("#btnTest").click(function () {
-            getArtist(1);
-        });
-
-        
-
     };
     function updatePage(msg) {
         //Build an output string consisting of the different screen
@@ -70,40 +60,6 @@
     function onResize() {
         updatePage();
     }
-    function getArtist(id) {
-        $.ajax({
-            type: "GET",
-            url: "http://cdmolnet.se/CDService.asmx/getArtist10?userID=" + id,
-            crossDomain: true,
-            async: true,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: successArtist,
-            error: function (msg) {
-
-                alert(msg.statusText);
-
-            }
-        });
-        function successArtist(data) {
-            try {
-                var obj = JSON.parse(data.d);
-                var shtml = '<form role="form">';
-                shtml += '<div class="form-group">';
-                shtml += '<input class="form-control" id="searchinput" type="search" placeholder="Search...">';
-                shtml += '</div><div id="left" class="list-group">Left side div</div></form>';
-                $.each(obj, function (index, item) {
-                    shtml += '<a id="lstA" class="list-group-item" href="#" data-id="' + item.artist + '"><span>' + item.artist + '</span><i style="background:aquamarine" class="badge">&nbsp;</i></a>';
-                });
-                shtml += '</form>';
-                $("#left").html(shtml);
-                $('#left').btsListFilter('#searchinput');
-            }
-            catch (err) {
-                // gör inget
-            }
-        }
-    }
     function onPause() {
         // TODO: This application has been suspended. Save application state here.
     };
@@ -118,7 +74,7 @@
         li = ul.getElementsByTagName("li");
         for (i = 0; i < li.length; i++) {
             a = li[i].getElementsByTagName("a")[0];
-            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            if (a.innerHTML.stoUpperCase().stindexOf(filter) > -1) {
                 li[i].style.display = "";
             } else {
                 li[i].style.display = "none";
@@ -126,46 +82,49 @@
             }
         }
     }
-    function getAlbum(a) {
-        var id = 1;
+    function logIn() {
+        var x = document.getElementById('txtUser').value;
+        var xE = ekrypt(x);
+        var y = document.getElementById('txtLosen').value;
+        var yE = ekrypt(y);
         $.ajax({
-            type: "GET",
-            url: 'http://cdmolnet.se/CDService.asmx/getAlbum10?userID=1&Artist="' + a + '"',
-            crossDomain: true,
-            async: true,
+            type: "POST",
+            url: "http://cdmolnet.se/CDService.asmx/loggaIn",
+            data: "{usernamn:'" + x + "', password: '" + y + "'}",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: successAlbum,
+            success: successLogin,
             error: function (msg) {
-
                 alert(msg.statusText);
-
             }
         });
-        function successAlbum(data) {
-            try {
-                var obj = JSON.parse(data.d);
-                var shtml = '<div class="wraper"><button type="button" class="btn btn-primary btn-block" style="margin-bottom: 5px;" id="btnBack">Back</button>';
-                $.each(obj, function (index, item) {
-                    shtml += '<div class="container-fluid"><img src="' + item.Cover + '" class="img-rounded imgCover" id="imgA"  data-id="' + item.Cover + '" data-rel="external">';
-                    shtml += '<div class="bottomLeftCover">' + item.album + '<br>' + item.Ar + '<br>' + item.Media + '</div></div> ';
-                });
-                shtml += '</div>';
-                $("#right").html(shtml);
-                if ($(window).width() <= 480) {
-                    $("#left").hide();
-                    $("#right").show();
-                    //$("#searchinput").hide();
-                    $("#btnBack").show();
-                }
-                
-                else {
-                    $("#btnBack").hide();
-                }
-                }
-            catch (err) {
-                // gör inget
+        function successLogin(data) {
+            if (data.d === 'NO') {
+               
+               // swal({ title: "Inloggad!", type: "success", text: "Välkommen att gå vidare.", imageUrl: "images/tummenUpp.jpg", showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Gå vidare", closeOnConfirm: false }, function () { window.location.href = "http://blacktv.se/tv.html" });;
+            } else {
+                //swal({ title: "Fel!", type: "warning", text: "Nu blev det fel, försök igen.", imageUrl: "images/tummenUpp.jpg" });
+                $('#txtUser').val('');
+                $('#txtLosen').val('');
+                var s = data.d;
+                var result = s.split(';');
+                localStorage.id = result[1];
+                localStorage.inloggad = 'Ja';
+                localStorage.namn = result[0];
+                $('#login-modal').modal('toggle');
             }
         }
+    }
+    function ekrypt(vad) {
+        var key = CryptoJS.enc.Utf8.parse('7061737323313233');
+        var iv = CryptoJS.enc.Utf8.parse('7061737323313233');
+        var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(vad), key,
+            {
+                keySize: 128 / 8,
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+        return encrypted;
     }
 })();

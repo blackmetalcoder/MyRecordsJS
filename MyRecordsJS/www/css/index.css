@@ -7,7 +7,7 @@ body {
     padding:0px;
     text-transform:uppercase;
     width:100%;
-    background-color:#32383d;
+    background-color:#ddd;
     font-family: 'RobotoRegular', 'Droid Sans', 'Segoe UI', Segoe, 'San Francisco', 'Helvetica Neue', Helvetica, Arial, Geneva, sans-serif;
     font-size:12px;
 }
@@ -19,29 +19,9 @@ h1 {
     padding:0px;
     text-align:center;
 }
-#myInput {
-    background-image: url('icons/Search-48.png');
-    background-position: 10px 12px;
-    background-repeat: no-repeat;
-    width: 100%;
-    font-size: 16px;
-    padding: 12px 20px 12px 40px;
-    border: 1px solid #ddd;
-    margin-bottom: 12px;
-}
 table, tr, td {
     height: 60px;
     padding: 0px;
-}
-.searchA {
-    background-image: url('/www/images/Search-48.png');
-    background-position: 10px 12px;
-    background-repeat: no-repeat;
-    width: 100%;
-    font-size: 16px;
-    padding: 12px 20px 12px 40px;
-    border: 1px solid #ddd;
-    margin-bottom: 12px;
 }
 @media screen and (max-width: 480px) {
     #right {
@@ -53,19 +33,42 @@ table, tr, td {
     }
 
     #left {
+        float: left;
         width: 100%;
-        
+        overflow: auto;
+        height: 100vh;
     }
-    .ArtistBild {
-        vertical-align: top;
-        list-style-image: url('/www/images/MetalMusic50.png');
+    .list-wrap {
+        float: left;
+        width: 100%;
+        padding: 5px;
     }
+}
+@media all and (max-width: 1024px) and (min-width: 481px) {
+    #left #leftsection {
+        width: 350px;
+        float: left;
+        overflow: auto;
+        height: 100vh;
+    }
+    .list-wrap {
+        float: left;
+        width: 350px;
+        padding: 5px;
+    }
+    #right {
+        overflow: auto;
+        height: 100vh;
+        padding: 5px;
+    }
+}
+#mainDiv {
+    height: 100vh;
 }
 .imgCover {
     height: 250px;
     width: 250px;
     padding-bottom: 5px;
-    
 }
 .inner_box {
     position: absolute;
@@ -101,9 +104,64 @@ table, tr, td {
     -webkit-box-shadow: 0px 0px 9px #111;
     box-shadow: 0px 0px 9px #111;
 }
-.wraper{
-    display:grid;
+
+.wraper {
+    display: grid;
     grid-gap: 5px;
-    grid-template-columns : repeat(auto-fill, minmax(250px, 1fr));
-    margin-bottom:2em;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    margin-bottom: 2em;
+    height: 100vh;
+}
+
+
+div.wrapper {
+    float: left; /* important */
+    position: relative; /* important(so we can absolutely position the description div */
+}
+
+div.description {
+    position: absolute; /* absolute position (so we can position it where we want)*/
+    bottom: 5px; /* position will be on bottom */
+    left: 5px;
+    width: 240px;
+    /* styling bellow */
+    background-color: black;
+    color: white;
+    opacity: 0.6; /* transparency */
+    filter: alpha(opacity=60); /* IE transparency */
+}
+
+p.description_content {
+    padding: 10px;
+    margin: 0px;
+    font-size: 15px;
+}
+
+.imgCover {
+    height: 250px;
+    width: 250px;
+    padding-bottom: 5px;
+}
+.container {
+    display: flex;
+    padding: 0px;
+}
+.modalBild {
+    height: 95%;
+    width: 95%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+header {
+    padding: 1em;
+    color: white;
+    background-color: black;
+    text-shadow: 2px 2px 5px grey;
+    clear: left;
+    text-align: left;
+    height: 60px;
+   /* border: 1px solid #808080;*/
+    -moz-border-radius: 15px;
+    border-radius: 15px;
 }
