@@ -10,11 +10,22 @@
         $("#left").show();
         $("#searchinput").show();
     });
+    $(document).on('click', '#login', function (ev) {
+        logIn();
+    });
     function onDeviceReady() {
         // Handle the Cordova pause and resume events
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
+        checkinlogg();
     };
+    function checkinlogg() {
+        if (localStorage.inloggad == 'Ja') {
+            $('#info').html('<h4>Welcome: ' + localStorage.namn + '</h4>');
+        } else {
+            $('#info').html('<strong>You are logged in</strong>');
+        }
+    }
     function updatePage(msg) {
         //Build an output string consisting of the different screen
         //measurement values
@@ -103,7 +114,6 @@
                
                // swal({ title: "Inloggad!", type: "success", text: "Välkommen att gå vidare.", imageUrl: "images/tummenUpp.jpg", showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Gå vidare", closeOnConfirm: false }, function () { window.location.href = "http://blacktv.se/tv.html" });;
             } else {
-                //swal({ title: "Fel!", type: "warning", text: "Nu blev det fel, försök igen.", imageUrl: "images/tummenUpp.jpg" });
                 $('#txtUser').val('');
                 $('#txtLosen').val('');
                 var s = data.d;
@@ -111,7 +121,8 @@
                 localStorage.id = result[1];
                 localStorage.inloggad = 'Ja';
                 localStorage.namn = result[0];
-                $('#login-modal').modal('toggle');
+                $('#login-modal').modal('hide');
+                $('#info').html('<strong>Welcome: ' + localStorage.namn + '</strong>');
             }
         }
     }

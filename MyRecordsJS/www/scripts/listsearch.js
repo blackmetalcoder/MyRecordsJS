@@ -58,9 +58,9 @@
             listArray.push(listText);
         });
 
-        $('#search-text').autocomplete({
+       /* $('#search-text').autocomplete({
             source: listArray
-        });
+        });*/
 
 
     }

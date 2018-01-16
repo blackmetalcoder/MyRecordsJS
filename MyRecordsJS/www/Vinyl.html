@@ -22,7 +22,7 @@
     <script>
         $(document).ready(function () {
             checkinlogg();
-           
+            $('#btnBack').hide();
         });
         $(document).on('click', '#lstA', function (ev) {
             var uid = $(this).data('id');
@@ -62,12 +62,14 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header" style="padding-left: 10px">
-                <!--<button type="button" class="btn btn-warning navbar-btn pull-left" id="btnHome">-->
                 <a href="index.html" class="btn btn-warning navbar-btn pull-left" style="display: inline-block; top:50%;" role="button">
                     <span class="glyphicon glyphicon glyphicon-home"></span>
                 </a>
-                <!--</button>-->
                 <div class="navbar-text navbar-brand-centered">All my Records</div>
+                <a href="#" class="btn btn-warning navbar-btn pull-right" style="display: inline-block; top:50%;" role="button" id="btnBack">
+                    <span class="glyphicon glyphicon glyphicon-arrow-left"></span>
+                </a>
+                 <div class="navbar-text navbar-brand-centered">All my Records</div>
             </div>
         </div>
     </nav>
@@ -79,7 +81,7 @@
                 <ul id="list" class"ul-serchlist"></ul>
             </section>
         </div>
-        <div id="right" style="padding-left:15px;"></div>
+        <div id="right" style="padding-left:25px;"></div>
     </div>
     <!--modal för bild-->
     <div class="modal fade" id="inBild">

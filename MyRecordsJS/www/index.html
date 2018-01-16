@@ -1,11 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
     <head>
-    <!--
-        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
-        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
-    
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
         <access origin="*" />
         <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; media-src *; img-src * filesystem: data:">
         <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: http://cdmolnet.se 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src; frame-src *">
@@ -16,9 +11,19 @@
         <link href="css/font-awesome.min.css" rel="stylesheet" />
         <link href="css/bootstrap.min.css" rel="stylesheet" />
         <link href="css/bootstrap-grid.min.css" rel="stylesheet" />
+        <link href="css/font-awesome.min.css" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" href="css/index.css">
         <link href="css/login.css" rel="stylesheet" />
+        <script src="scripts/jquery-3.1.1.min.js"></script>
+        <script src="scripts/aes.js"></script>
+        <script src="scripts/index.js"></script>
         <title>MyRecords</title>
+       <script>
+           $(document).ready(function () {
+              // checkinlogg();
+           });
+
+       </script>
      </head>
     <body>
         <nav class="navbar navbar-inverse">
@@ -37,6 +42,10 @@
                         <li  data-toggle="collapse" data-target=".navbar-collapse"><a href="allalbums.html" ><span class="glyphicon  glyphicon-music"></span> All my records</a></li>
                         <li><a href="cd.html"><span class="glyphicon  glyphicon-cd"></span> My CD:s</a></li>
                         <li><a href="Vinyl.html"><span class="glyphicon  glyphicon-headphones"></span> My Vinyls</a></li>
+                        <li><a href="Vinyl.html"><span class="glyphicon  glyphicon-th-list"></span> My 50 latest albums</a></li>
+                        <li><a href="stat.html"><span class="glyphicon  glyphicon-info-sign"></span> statistics</a></li>
+                        <li><a href="playlist.html"><span class="glyphicon  glyphicon-music"></span> Random playlist</a></li>
+                        <li><a href="Vinyl.html"><span class="glyphicon  glyphicon-question-sign"></span> About!</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
@@ -47,9 +56,14 @@
             </div>
         </nav>
         
-        <div id="mainDiv" class="container">
-
-            <img src="images/Square310x310Logo.scale-125.png" />
+        <div id="mainDiv">
+            <div class="class="row"">
+                <div id="info" class="jumbotron text-center"></div>
+            </div>
+            <div class="row ">
+                <img src="images/Square310x310Logo.scale-125.png" class="indexImage" />
+            </div>
+           
        </div>
             <script src="scripts/jquery-3.1.1.min.js"></script>
             <script src="scripts/bootstrap.min.js"></script>

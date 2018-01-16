@@ -49,9 +49,9 @@ function getAlbum(a) {
     function successAlbum(data) {
         try {
             var obj = JSON.parse(data.d);
-            var shtml = '<button type="button" class="btn btn-primary btn-block" style="margin-bottom: 5px; height=25px;" id="btnBack">Back</button>';
+            var shtml = '';
             $.each(obj, function (index, item) {
-                shtml += '<div class="wrapper"><img src="' + item.Cover + '" class="img-rounded imgCover" id="imgA"  data-id="' + item.Cover + '"/>';
+                shtml += '<div class="wraper"><img src="' + item.Cover + '" class="img-rounded imgCover" id="imgA"  data-id="' + item.Cover + '"/>';
                 shtml += '<div class="description" id="tracks" data-id="' + item.discID + '"><p class="description_content">' + item.album + '<br>' + item.Ar + '<br>' + item.Media + '</p></div></div> ';
             });
             $("#right").html(shtml);
@@ -153,7 +153,7 @@ function getAlbumCD(a) {
     function successAlbumCD(data) {
         try {
             var obj = JSON.parse(data.d);
-            var shtml = '<button type="button" class="btn btn-primary btn-block" style="margin-bottom: 5px; height=25px;" id="btnBack">Back</button>';
+            var shtml = '';
             $.each(obj, function (index, item) {
                 shtml += '<div class="wrapper"><img src="' + item.Cover + '" class="img-rounded imgCover" id="imgA"  data-id="' + item.Cover + '"/>';
                 shtml += '<div class="description" id="tracks"  data-id="' + item.discID + '"><p class="description_content">' + item.album + '<br>' + item.Ar + '<br>' + item.Media + '</p></div></div> ';
@@ -193,7 +193,7 @@ function getAlbumVinyl(a) {
     function successAlbumVinyl(data) {
         try {
             var obj = JSON.parse(data.d);
-            var shtml = '<button type="button" class="btn btn-primary btn-block" style="margin-bottom: 5px; height=25px;" id="btnBack">Back</button>';
+            var shtml = '';//'<button type="button" class="btn btn-primary btn-block" style="margin-bottom: 5px; height=25px;" id="btnBack">Back</button>';
             $.each(obj, function (index, item) {
                 shtml += '<div class="wrapper"><img src="' + item.Cover + '" class="img-rounded imgCover" id="imgA"  data-id="' + item.Cover + '"/>';
                 shtml += '<div class="description" id="tracks" data-id="' + item.discID + '"><p class="description_content">' + item.album + '<br>' + item.Ar + '<br>' + item.Media + '</p></div></div> ';
@@ -218,6 +218,7 @@ $(document).on('click', '#btnBack', function (ev) {
     $("#right").hide();
     $("#left").show();
     $("#searchinput").show();
+    $("#btnBack").hide();
 });
 $(document).on('click', '#btnHome', function (ev) {
     window.location.href('index.html');
@@ -241,17 +242,17 @@ function getTracks(discID) {
     function successTracks(data) {
         try {
             var obj = JSON.parse(data.d);
-            var shtml = '<ul class="list-group">';
+            var shtml = ''; //'<ul class="list-group">';
             $.each(obj, function (index, item) {
-                shtml += '<li class="list-group-item list-group-item-info">' + item.track + '</li > ';
+                shtml += '<li class="list-group-item">' + item.track + '</li> ';
             });
-            shtml += '</ul>';
+            //shtml += '</ul>';
             $('#inTracks').modal('show');
             $("#lstTracks").html(shtml);
             
         }
         catch (err) {
-            // gör inget
+            // gör inget list-group-item-success
         }
     }
 }
