@@ -16,14 +16,13 @@
             var obj = JSON.parse(data.d);
             var shtml = '';
             $.each(obj, function (index, item) {
-                shtml += '<li class="li-serchlist" id="lstA" data-id="' + item.artistVinyl + '">' + item.artistVinyl + '</li>';
+                shtml += '<li class="li_search" id="lstA" data-id="' + item.artist + '">' + item.artist + '</li>';
             });
             shtml += ' <span class="empty-item">no results</span>';
 
             $("#list").html(shtml);
-            swal.close();
             var jobCount = obj.length;//$('#list .in').length;
-            $('.list-count').text(jobCount + ' items');
+            $('.list-count').text(jobCount + ' Groups');
         }
         catch (err) {
             // gör inget
@@ -49,15 +48,19 @@ function getAlbum(a) {
     function successAlbum(data) {
         try {
             var obj = JSON.parse(data.d);
-            var shtml = '';
+            var shtml = '<ul class="collection">';
             $.each(obj, function (index, item) {
-                shtml += '<div class="wraper"><img src="' + item.Cover + '" class="img-rounded imgCover" id="imgA"  data-id="' + item.Cover + '"/>';
-                shtml += '<div class="description" id="tracks" data-id="' + item.discID + '"><p class="description_content">' + item.album + '<br>' + item.Ar + '<br>' + item.Media + '</p></div></div> ';
+                shtml += '<li class="collection-item avatar ram" style="padding-bottom:15px;">';
+                shtml += '<img src="' + item.Cover + '" class="circle" id="imgA" data-id="' + item.Cover + ';' + a + ';' + item.album + '">';
+                shtml += '<span class="title" id="tracks" data-id="' + item.discID + '">' + item.album  + '</span>';
+                shtml += '<p><strong>' + item.Ar + '<br>' + item.Media + '</strong></p>';
+                shtml += '<a href="#!" class="secondary-content" id="tracks" data-id="' + item.discID + '"><i class="material-icons">playlist_add</i></a></li>';
             });
+            shtml += '</ul>';
             $("#right").html(shtml);
             if ($(window).width() <= 480) {
                 $("#left").hide();
-                $("#right").show();;
+                $("#right").show();
                 $("#btnBack").show();
             }
 
@@ -88,7 +91,7 @@ function getArtistVinyl(id) {
             var obj = JSON.parse(data.d);
             var shtml = '';
             $.each(obj, function (index, item) {
-                shtml += '<li class="li-serchlist" id="lstA" data-id="' + item.artistVinyl + '">' + item.artistVinyl + '</li>';
+                shtml += '<li class="li_search" id="lstA" data-id="' + item.artistVinyl + '">' + item.artistVinyl + '</li>';
             });
             shtml += ' <span class="empty-item">no results</span>';
 
@@ -122,12 +125,11 @@ function getArtistCD(id) {
             var obj = JSON.parse(data.d);
             var shtml;
             $.each(obj, function (index, item) {
-                shtml += '<li class="li-serchlist" id="lstA" data-id="' + item.artistCD + '">' + item.artistCD + '</li>';
+                shtml += '<li class="li_search" id="lstA" data-id="' + item.artistCD + '">' + item.artistCD + '</li>';
             });
             shtml += ' <span class="empty-item">no results</span>';
 
             $("#list").html(shtml);
-            swal.close();
         }
         catch (err) {
             // gör inget
@@ -153,15 +155,19 @@ function getAlbumCD(a) {
     function successAlbumCD(data) {
         try {
             var obj = JSON.parse(data.d);
-            var shtml = '';
+            var shtml = '<ul class="collection">';
             $.each(obj, function (index, item) {
-                shtml += '<div class="wrapper"><img src="' + item.Cover + '" class="img-rounded imgCover" id="imgA"  data-id="' + item.Cover + '"/>';
-                shtml += '<div class="description" id="tracks"  data-id="' + item.discID + '"><p class="description_content">' + item.album + '<br>' + item.Ar + '<br>' + item.Media + '</p></div></div> ';
+                shtml += '<li class="collection-item avatar ram" style="padding-bottom:15px;">';
+                shtml += '<img src="' + item.Cover + '" class="circle" id="imgA" data-id="' + item.Cover + ';' + a + ';' + item.album + '">';
+                shtml += '<span class="title" id="tracks" data-id="' + item.discID + '">' + item.album + '</span>';
+                shtml += '<p><strong>' + item.Ar + '<br>' + item.Media + '</strong></p>';
+                shtml += '<a href="#!" class="secondary-content" id="tracks" data-id="' + item.discID + '"><i class="material-icons">playlist_add</i></a></li>';
             });
+            shtml += '</ul>';
             $("#right").html(shtml);
             if ($(window).width() <= 480) {
                 $("#left").hide();
-                $("#right").show();;
+                $("#right").show();
                 $("#btnBack").show();
             }
 
@@ -193,15 +199,19 @@ function getAlbumVinyl(a) {
     function successAlbumVinyl(data) {
         try {
             var obj = JSON.parse(data.d);
-            var shtml = '';//'<button type="button" class="btn btn-primary btn-block" style="margin-bottom: 5px; height=25px;" id="btnBack">Back</button>';
+            var shtml = '<ul class="collection">';
             $.each(obj, function (index, item) {
-                shtml += '<div class="wrapper"><img src="' + item.Cover + '" class="img-rounded imgCover" id="imgA"  data-id="' + item.Cover + '"/>';
-                shtml += '<div class="description" id="tracks" data-id="' + item.discID + '"><p class="description_content">' + item.album + '<br>' + item.Ar + '<br>' + item.Media + '</p></div></div> ';
+                shtml += '<li class="collection-item avatar ram" style="padding-bottom:15px;">';
+                shtml += '<img src="' + item.Cover + '" class="circle" id="imgA" data-id="' + item.Cover + ';' + a + ';' + item.album + '">';
+                shtml += '<span class="title" id="tracks" data-id="' + item.discID + '">' + item.album + '</span>';
+                shtml += '<p><strong>' + item.Ar + '<br>' + item.Media + '</strong></p>';
+                shtml += '<a href="#!" class="secondary-content" id="tracks" data-id="' + item.discID + '"><i class="material-icons">playlist_add</i></a></li>';
             });
+            shtml += '</ul>';
             $("#right").html(shtml);
             if ($(window).width() <= 480) {
                 $("#left").hide();
-                $("#right").show();;
+                $("#right").show();
                 $("#btnBack").show();
             }
 
@@ -242,14 +252,12 @@ function getTracks(discID) {
     function successTracks(data) {
         try {
             var obj = JSON.parse(data.d);
-            var shtml = ''; //'<ul class="list-group">';
+            var shtml = '';
             $.each(obj, function (index, item) {
-                shtml += '<li class="list-group-item">' + item.track + '</li> ';
+                shtml += '<li class="collection-item">' + item.track + '</li> ';
             });
-            //shtml += '</ul>';
-            $('#inTracks').modal('show');
+            $('#modalTracks').openModal();
             $("#lstTracks").html(shtml);
-            
         }
         catch (err) {
             // gör inget list-group-item-success

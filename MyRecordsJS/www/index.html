@@ -1,92 +1,126 @@
 ﻿<!DOCTYPE html>
 <html>
-    <head>
-        <access origin="*" />
-        <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; media-src *; img-src * filesystem: data:">
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: http://cdmolnet.se 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src; frame-src *">
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link href="css/font-awesome.min.css" rel="stylesheet" />
-        <link href="css/bootstrap.min.css" rel="stylesheet" />
-        <link href="css/bootstrap-grid.min.css" rel="stylesheet" />
-        <link href="css/font-awesome.min.css" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <link href="css/login.css" rel="stylesheet" />
-        <script src="scripts/jquery-3.1.1.min.js"></script>
-        <script src="scripts/aes.js"></script>
-        <script src="scripts/index.js"></script>
-        <title>MyRecords</title>
-       <script>
-           $(document).ready(function () {
-              // checkinlogg();
-           });
+<head>
+    <access origin="*" />
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; media-src *; img-src * filesystem: data:">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: http://cdmolnet.se 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src; frame-src *">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/aes.js"></script>
+    <script src="scripts/index.js"></script>
+    <script src="scripts/materialize/materialize.min.js"></script>
+    <title>MyRecords</title>
+    <style>
+        body {
+            background: #ccc
+        }
+        .box h3 {
+            text-align: center;
+            position: relative;
+            top: 80px;
+        }
+            .box {
+            width: 88%;
+            height: 350px;
+            background: #00ff90;
+            margin: 40px auto;
+        }
+        .effect5 {
+            position: relative;
+        }
 
-       </script>
-     </head>
-    <body>
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">MYRECORDS</a>
+            .effect5:before, .effect5:after {
+                z-index: -1;
+                position: absolute;
+                content: "";
+                bottom: 25px;
+                left: 10px;
+                width: 50%;
+                top: 80%;
+                max-width: 300px;
+                background: #777;
+                -webkit-box-shadow: 0 35px 20px #777;
+                -moz-box-shadow: 0 35px 20px #777;
+                box-shadow: 0 35px 20px #777;
+                -webkit-transform: rotate(-8deg);
+                -moz-transform: rotate(-8deg);
+                -o-transform: rotate(-8deg);
+                -ms-transform: rotate(-8deg);
+                transform: rotate(-8deg);
+            }
+
+            .effect5:after {
+                -webkit-transform: rotate(8deg);
+                -moz-transform: rotate(8deg);
+                -o-transform: rotate(8deg);
+                -ms-transform: rotate(8deg);
+                transform: rotate(8deg);
+                right: 10px;
+                left: auto;
+            }
+    </style>
+</head>
+<body>
+    <ul id="slide-out" class="side-nav">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="images/vinylplayer.jpg">
                 </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li  data-toggle="collapse" data-target=".navbar-collapse"><a href="allalbums.html" ><span class="glyphicon  glyphicon-music"></span> All my records</a></li>
-                        <li><a href="cd.html"><span class="glyphicon  glyphicon-cd"></span> My CD:s</a></li>
-                        <li><a href="Vinyl.html"><span class="glyphicon  glyphicon-headphones"></span> My Vinyls</a></li>
-                        <li><a href="Vinyl.html"><span class="glyphicon  glyphicon-th-list"></span> My 50 latest albums</a></li>
-                        <li><a href="stat.html"><span class="glyphicon  glyphicon-info-sign"></span> statistics</a></li>
-                        <li><a href="playlist.html"><span class="glyphicon  glyphicon-music"></span> Random playlist</a></li>
-                        <li><a href="Vinyl.html"><span class="glyphicon  glyphicon-question-sign"></span> About!</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                        <li data-toggle="collapse" data-target=".navbar-collapse"><a href="#" data-toggle="modal" data-target="#login-modal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    </ul>
-                    
-                </div>
             </div>
-        </nav>
-        
-        <div id="mainDiv">
-            <div class="class="row"">
-                <div id="info" class="jumbotron text-center"></div>
+        </li>
+        <li><a href="#modal1" class="modal-trigger"><i class="material-icons">account_circle</i> Login</a></li>
+        <li><a href="#!"><i class="material-icons">verified_user</i> New user</a></li>
+        <li><a href="allalbums.html"><i class="material-icons">album</i> All my records</a></li>
+        <li><a href="cd.html"><i class="material-icons">album</i> My CD:s</a></li>
+        <li><a href="Vinyl.html"><i class="material-icons">album</i> My Vinyls</a></li>
+        <li><a href="senaste.html"><i class="material-icons">list</i> My 50 latest albums</a></li>
+        <li><a href="stat.html"><i class="material-icons">pie_chart</i> Statistics</a></li>
+        <li><a href="playlist.html"><i class="material-icons">playlist_add</i> Random playlist</a></li>
+        <li><a href="newalbum.html"><i class="material-icons">add</i> Add album</a></li>
+        <li><a href="#!"><i class="material-icons">info</i> About</a></li>
+
+    </ul>
+    <div class="row z-depth-2 valign-wrapper black white-text" style="padding-left:15px;">
+        <a href="#" data-activates="slide-out" class="button-collapse left-align"><i class="material-icons">menu</i></a>
+        <h4>&nbsp;&nbsp;&nbsp;MyRecords</h4>
+
+    </div>
+    <div id="mainDiv">
+            <div class="box effect5" id="info">
+
             </div>
-            <div class="row ">
-                <img src="images/Square310x310Logo.scale-125.png" class="indexImage" />
-            </div>
-           
-       </div>
-            <script src="scripts/jquery-3.1.1.min.js"></script>
-            <script src="scripts/bootstrap.min.js"></script>
-            <script type="text/javascript" src="cordova.js"></script>
-            <script type="text/javascript" src="scripts/platformOverrides.js"></script>
-            <script type="text/javascript" src="scripts/index.js"></script>
-            <script src="scripts/listsearch.js"></script>
-<!--Login form-->
-        <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog">
-                <div class="loginmodal-container">
-                    <h1>Login to Your Account</h1><br>
-                    <div class="modal-body">
-                        <input type="text" name="txtUser" id="txtUser" placeholder="Username">
-                        <input type="password" name="txtLosen" id="txtLosen" placeholder="Password">
-                        <!--<input type="submit" name="login" id="login" class="login loginmodal-submit" value="Login">-->
-                        <button type="button" class="btn btn-success" id="login">
-                            Login
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                        </button>
-                        </div>
-                    </div>
+    </div>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+    <script type="text/javascript" src="scripts/index.js"></script>
+    <script src="scripts/listsearch.js"></script>
+    <!-- Modal login -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Login</h4>
+            <div id='loggaIn'>
+                <label for="txtUser">Username:</label>
+                <input type="text" id='txtUser'>
+                <label for="txtLosen">Password</label>
+                <input type="password" id='txtLosen'>
+                <button type="button" class="btn btn-success" id="login">
+                    Login
+                    <i class="material-icons">account_circle</i>
+                </button>
             </div>
         </div>
+
+    </div>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
 </body>
 </html>

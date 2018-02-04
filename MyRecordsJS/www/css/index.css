@@ -1,15 +1,20 @@
 body {
-
-    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-    font-size:12px;
-    height:100%;
-    margin:0px;
-    padding:0px;
-    text-transform:uppercase;
-    width:100%;
-   /* background-color:rgb(128, 128, 128);*/
+    font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    text-transform: uppercase;
+    width: 100%;
+    /* background-color:rgb(128, 128, 128);*/
     font-family: 'RobotoRegular', 'Droid Sans', 'Segoe UI', Segoe, 'San Francisco', 'Helvetica Neue', Helvetica, Arial, Geneva, sans-serif;
-    font-size:12px;
+    font-size: 12px;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+main {
+    flex: 1 0 auto;
 }
 h1 {
     font-size:24px;
@@ -177,24 +182,7 @@ header {
     margin: 10px 10px;
     overflow: hidden;
 }
-.modal-content {
-    background-color: #222;
-    color: #ddd;
-}
 
-.modal-dialog {
-    /*width: 400px;*/
-    overflow: auto;
-    background-color: #333;
-}
-
-/* custom animation */
-.modal.fade {
-    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
-    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
-    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
-    transition: opacity 0.3s linear, left 0.3s ease-out;
-}
 
 .centerTracks {
     display: block;

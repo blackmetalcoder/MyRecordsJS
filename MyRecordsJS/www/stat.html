@@ -8,14 +8,12 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/bootstrap-grid.min.css" rel="stylesheet" />
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/listsearch.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
-    <link href="css/login.css" rel="stylesheet" />
-    <link href="css/menu.css" rel="stylesheet" />
-    <script src="scripts/jquery-3.1.1.min.js"></script>
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/materialize/materialize.min.js"></script>
     <script src="scripts/loader.js"></script>
     <title>MyRecords</title>
     <script>
@@ -25,18 +23,19 @@
         });
         function checkinlogg() {
             if (localStorage.inloggad == 'Ja') {
-               // getPie();
+                // getPie();
                 // Load the Visualization API and the corechart package.
                 google.charts.load('current', { 'packages': ['corechart'] });
                 // Set a callback to run when the Google Visualization API is loaded.
-                google.charts.setOnLoadCallback(drawChart);
+                google.charts.setOnLoadCallback(getPie);
+                google.charts.setOnLoadCallback(getBar);
             } else {
                 swal("Logga in eller skapa ett konto så kommer du sidan !!", "warning");
                 window.location.href("index.html");
             }
         }
         function getPie() {
-           
+
             var id = localStorage.id;
             $.ajax({
                 type: "GET",
@@ -52,44 +51,82 @@
             });
             function successPlaylist(data) {
                 var shtml = "";
+                var dataTable = new google.visualization.DataTable();
+                dataTable.addColumn('string', 'Media');
+                dataTable.addColumn('number', 'Antal');
                 var obj = JSON.parse(data.d);
-                
                 $.each(obj, function (index, item) {
-                  
+                    dataTable.addRow([item.media, item.varde]);
                 });
-               
+
+
+                // Set chart options
+                var options = {
+                    'title': 'By Media',
+                    'width': 400,
+                    'height': 300,
+                    'is3D': true
+                };
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.PieChart(document.getElementById('chart-area'));
+                chart.draw(dataTable, options);
             }
         }
-        function drawChart() {
+        function getBar() {
+            var id = localStorage.id;
+            $.ajax({
+                type: "GET",
+                url: "http://cdmolnet.se/CDService.asmx/minStat?userId='" + id + "'",
+                crossDomain: true,
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: successPlaylist,
+                error: function (msg) {
 
-            // Create the data table.
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Media');
-            data.addColumn('number', 'Count');
-            data.addRows([
-                ['Mushrooms', 3000],
-                ['Onions', 100],
-                ['Olives', 100],
-                ['Zucchini', 1000],
-                ['Pepperoni', 2000]
-            ]);
+                }
+            });
+            function successPlaylist(data) {
+                var shtml = "";
+                var dataTable = new google.visualization.DataTable();
+                dataTable.addColumn('string', 'Text');
+                dataTable.addColumn('number', 'Antal');
+                var obj = JSON.parse(data.d);
+                $.each(obj, function (index, item) {
+                    if (index == 2) {
 
-            // Set chart options
-            var options = {
-                'title': 'By Media',
-                'width': 400,
-                'height': 300
-            };
-            // Instantiate and draw our chart, passing in some options.
-            var chart = new google.visualization.PieChart(document.getElementById('chart-area'));
-            chart.draw(data, options);
+                    } else {
+                        dataTable.addRow([item.Text, item.Antal]);
+                    }
+                });
+
+
+                // Set chart options
+                var options = {
+                    'title': 'My collection',
+                    'width': 400,
+                    'height': 300
+                };
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.ColumnChart(document.getElementById('chart-bar'));
+                chart.draw(dataTable, options);
+            }
         }
     </script>
 </head>
 <body>
+    <nav>
+        <div class="nav-wrapper black">
+            <a href="#!" class="brand-logo center">Statistics</a>
+            <ul class="left ">
+                <li><a href="index.html"><i class="material-icons left">home</i></a></li>
+            </ul>
+        </div>
+    </nav>
     <div id="chart-area">
     </div>
-    <script src="scripts/bootstrap.min.js"></script>
+    <div id="chart-bar">
+    </div>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
     <script type="text/javascript" src="scripts/index.js"></script>

@@ -8,29 +8,26 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/bootstrap-grid.min.css" rel="stylesheet" />
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
-    <link href="css/login.css" rel="stylesheet" />
-    <link href="css/menu.css" rel="stylesheet" />
-    <script src="scripts/jquery-3.1.1.min.js"></script>
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/materialize/materialize.min.js"></script>
     <title>MyRecords</title>
     <script>
         $(document).ready(function () {
             checkinlogg();
-            
+            $('select').material_select();
+            $('.modal-trigger').leanModal();
         });
         function checkinlogg() {
             if (localStorage.inloggad == 'Ja') {
-                
+
             } else {
                 swal("Logga in eller skapa ett konto så kommer du sidan !!", "warning");
                 window.location.href("index.html");
             }
         }
-
         function getPlaylist() {
 
         }
@@ -47,87 +44,178 @@
                 dataType: "json",
                 success: successPlaylist,
                 error: function (msg) {
-                    
+
                 }
             });
             function successPlaylist(data) {
-                var shtml = "";
+                var shtml = '<ul class="collection">';
                 var obj = JSON.parse(data.d);
-               
+
                 $.each(obj, function (index, item) {
-                    shtml += '<div class="wrapper"><img src="' + item.Cover + '" class="img-rounded imgCover"/>';
-                    shtml += '<div class="description"><p class="description_content">' + item.album + '<br>' + item.Artist + '<br>' + item.Media + '</p></div></div> ';
+                    shtml += '<li class="collection-item avatar ram" style="padding-bottom:15px;">';
+                    shtml += '<img src="' + item.Cover + '" class="circle" id="imgA" data-id="' + item.Cover + ';' + item.Artist + ';' + item.album + '">';
+                    shtml += '<span class="title" id="tracks" data-id="' + item.discID + '">' + item.Artist + '</span>';
+                    shtml += '<p><strong>' + item.album + '<br>' + item.Media + '</strong></p>';
+                    shtml += '<a href="#!" class="secondary-content" id="tracks" data-id="' + item.discID + '"><i class="material-icons">playlist_add</i></a></li>';
                 });
+                shtml += '</ul>';
                 $("#pic").html(shtml);
+                $('#modal1').closeModal();
             }
-            
+
         });
 
     </script>
+    <style>
+        .modal-fullscreen.open {
+            width: 90%;
+            max-height: 100%;
+            height: 70%;
+            top: 0 !important;
+        }
+
+        modal-fullscreen > .modal-content {
+            height: calc(100% - 150px);
+        }
+    </style>
 </head>
 <body>
-    <nav id="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header" style="padding-left: 10px">
-                <a href="index.html" class="btn btn-warning navbar-btn pull-left" style="display: inline-block; top:50%;" role="button">
-                    <span class="glyphicon glyphicon glyphicon-home"></span>
-                </a>
-                <div class="navbar-text navbar-brand-centered">Playlist</div>
-                <button class=" btn-warning navbar-btn pull-right btn-lg" style="display: inline-block; top:50%;" id="btnPlaylist" data-toggle="modal" data-target="#modalPlaylist">
-                    <span class="glyphicon glyphicon glyphicon-music"></span>
-                </button>
-            </div>
+    <nav>
+        <div class="nav-wrapper black">
+            <a href="#!" class="brand-logo center">Playlist</a>
+            <ul class="left ">
+                <li><a href="index.html"><i class="material-icons left">home</i></a></li>
+            </ul>
+            <ul class="right ">
+                <li href="#modal1" class="modal-trigger"><a ><i class="material-icons left ">featured_play_list</i></a></li>
+                <!--<li class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</li>-->
+            </ul>
         </div>
     </nav>
-    <div class="container"> 
-        <br />
-       <br />
-        <br />
-        <br />
+    <div>
+
         <br />
         <div id="pic" style="padding-left:25px; padding-bottom:70px; padding-top:70px;" class="block inline-sm"></div>
     </div>
     <!--modal för bild-->
-    <div class="modal fade" id="modalPlaylist" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title text-center">Create playlist</h2>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    <script>
+        $(document).ready(function () {
+            checkinlogg();
+
+        });
+        function checkinlogg() {
+            if (localStorage.inloggad == 'Ja') {
+
+            } else {
+                window.location.href("index.html");
+            }
+        }
+        $(document).on('click', '#imgA', function (ev) {
+            var uid = $(this).data('id');
+            var T = uid.split(';');
+            var b = '<img src="' + T[0] + '" class="responsive-img">';
+            $("#mediaInfo").html(T[1] + ', ' + T[2]);
+            $("#BildA").html(b);
+            $('#inBild').openModal();
+        });
+        $(document).on('click', '#tracks', function (ev) {
+            var uid = $(this).data('id');
+            getTracks(uid);
+        });
+        function getLatestAlbums() {
+            var id = localStorage.id;
+            var media = $('#selMedia').val();
+            var iAntal = $('#selAntal').val();
+            $.ajax({
+                type: "GET",
+                url: "http://cdmolnet.se/CDService.asmx/RandomAlbum?User=1&Media='" + media + "'&antal=" + iAntal,
+                crossDomain: true,
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: successPlaylist,
+                error: function (msg) {
+
+                }
+            });
+            function successPlaylist(data) {
+                var obj = JSON.parse(data.d);
+                var shtml = '<ul class="collection">';
+                $.each(obj, function (index, item) {
+                    shtml += '<li class="collection-item avatar ram" style="padding-bottom:15px;">';
+                    shtml += '<img src="' + item.Cover + '" class="circle" id="imgA" data-id="' + item.Cover + ';' + item.Artist + ';' + item.album + '">';
+                    shtml += '<span class="title" id="tracks" data-id="' + item.discID + '">' + item.Artist + '</span>';
+                    shtml += '<p><strong>' + item.album + '<br>' + item.Media + '</strong></p>';
+                    shtml += '<a href="#!" class="secondary-content" id="tracks" data-id="' + item.discID + '"><i class="material-icons">playlist_add</i></a></li>';
+                });
+                shtml += '</ul>';
+                $("#pic").html(shtml);
+            }
+        }
+        $(document).on('click', '#btnGetPlaylist', function (ev) {
+            getLatestAlbums();
+
+        });
+
+    </script>
+    <div id="modal1" class="modal modal-fullscreen">
+        <div class="modal-content">
+            Create playlist
+            <div id='loggaIn'>
+                <div class="input-field" style="padding-left: 50px;">
+                    <select id="selMedia">
+                        <option value="CD">CD</option>
+                        <option value="Vinyl" selected="selected">Vinyl</option>
+                        <option value="Tape">Tape</option>
+                    </select>
+                    <label class="black-text" style="padding-left: 50px;">Choose media:</label>
                 </div>
-                <div class="modal-body" width="90%">
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <label for="sel1">Choose media:</label>
-                            <select class="form-control" id="selMedia">
-                                <option>CD</option>
-                                <option>Vinyl</option>
-                                <option>Tape</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="sel1">How many:</label>
-                            <select class="form-control" id="selAntal">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-                    </form>
-                    <div class="modal-footer">
-                        <button id="btnGetPlaylist" type="button" class="btn btn-secondary" style="color:black;" data-dismiss="modal">Get playlist</button>
-                    </div>
+                <!--Hur många-->
+                <div class="input-field" style="padding-left: 50px;">
+                    <select id="selAntal">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    <label class="black-text" style="padding-left: 50px;">Choose media:</label>
+                </div>
+                <div class="col s2 m2">
+                    <a class="waves-effect waves-light btn" id="btnGetPlaylist"><i class="material-icons left">search</i>Create playlist</a>
                 </div>
             </div>
         </div>
+
     </div>
-    <script src="scripts/bootstrap.min.js"></script>
+    <!-- Modal Cover -->
+    <div id="inBild" class="modal modal-fullscreen">
+        <div class="modal-content">
+            <h4>Now playing</h4>
+            <div id="BildA">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div id="mediaInfo" class="aInfo"></div>
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
+        </div>
+    </div>
+    <!-- Modal Tracks -->
+    <div id="modalTracks" class="modal">
+        <div class="modal-content">
+            <h4>Tracks</h4>
+            <ul id="lstTracks" class="collection"></ul>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
-    <script type="text/javascript" src="scripts/index.js"></script>
 </body>
 </html>

@@ -8,17 +8,16 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/bootstrap-grid.min.css" rel="stylesheet" />
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="css/listsearch.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
     <link href="css/sweetalert.css" rel="stylesheet" />
-    <link href="css/menu.css" rel="stylesheet" />
-    <script src="scripts/jquery-3.1.1.min.js"></script>
-    <script src="scripts/sweetalert.min.js"></script>
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/materialize/materialize.min.js"></script>
     <script src="scripts/allalbums.js"></script>
+    <script src="scripts/listsearch.js"></script>
+    <script src="scripts/sweetalert.min.js"></script>
     <title>MyRecords</title>
     <script>
         $(document).ready(function () {
@@ -35,18 +34,20 @@
         });
         function checkinlogg() {
             if (localStorage.inloggad == 'Ja') {
-                swal("Getting your albums!!", "Info");
+                Materialize.toast('Getting your CD:s!', 2000);
                 getArtistCD(localStorage.id);
             } else {
-                swal("Logga in eller skapa ett konto så kommer du sidan !!", "warning");
+                Materialize.toast('Logga in eller skapa ett konto så kommer du sidan !!', 3000, 'rounded');
                 window.location.href("index.html");
             }
         }
         $(document).on('click', '#imgA', function (ev) {
             var uid = $(this).data('id');
-            var b = '<img src="' + uid + '" class="modalBild">';
-            $('#inBild').modal('show');
+            var T = uid.split(';');
+            var b = '<img src="' + T[0] + '" class="responsive-img">';
+            $("#mediaInfo").html(T[1] + ', ' + T[2]);
             $("#BildA").html(b);
+            $('#inBild').openModal();
         });
     </script>
     <style>
@@ -57,76 +58,87 @@
         .list-group-item {
             display: list-item;
         }
+        .ram {
+            /*border: 1px solid;
+            padding: 10px;
+            box-shadow: 5px 10px #888888;*/
+            -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+            box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+            border-radius: 15px 15px 15px 15px;
+            -moz-border-radius: 15px 15px 15px 15px;
+            -webkit-border-radius: 15px 15px 15px 15px;
+            border: 1px solid #000000;
+        }
+
+        .modal-fullscreen.open {
+            width: 90%;
+            max-height: 100%;
+            height: 70%;
+            top: 0 !important;
+        }
+
+        modal-fullscreen > .modal-content {
+            height: calc(100% - 150px);
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header" style="padding-left: 10px">
-                <a href="index.html" class="btn btn-warning navbar-btn pull-left" style="display: inline-block; top:50%;" role="button">
-                    <span class="glyphicon glyphicon glyphicon-home"></span>
-                </a>
-                <div class="navbar-text navbar-brand-centered">All my CD:s</div>
-                <a href="#" class="btn btn-warning navbar-btn pull-right" style="display: inline-block; top:50%;" role="button" id="btnBack">
-                    <span class="glyphicon glyphicon glyphicon-arrow-left"></span>
-                </a>
-            </div>
+    <nav>
+        <div class="nav-wrapper black">
+            <a href="#!" class="brand-logo center">All CD:s</a>
+            <ul class="left ">
+                <li><a href="index.html"><i class="material-icons left">home</i></a></li>
+            </ul>
+            <ul class="right ">
+                <li><a href="#" id="btnBack"><i class="material-icons right">keyboard_backspace</i></a></li>
+            </ul>
         </div>
     </nav>
-    <div id="mainDiv" class="container">
+    <div id="mainDiv">
         <div id="left">
             <section id="leftsection" class="list-wrap">
                 <input type="text" id="search-text" placeholder="Search..." class="search-box">
                 <span class="list-count"></span>
-                <ul id="list" class"ul-serchlist"></ul>
+                <ul id="list" class"ul_search"></ul>
             </section>
         </div>
-        <div id="right" style="padding-left:25px;"></div>
+        <div id="right" style="padding-bottom:70px; padding-top:20px;"></div>
     </div>
-    <!--modal för bild-->
-    <div class="modal fade" id="inBild">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title text-center">Now playing</h2>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" width="90%">
-                    <div id="BildA">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
+    <!--snabb länk till CD & Vinyl & Playlist-->
+    <div class="fixed-action-btn horizontal">
+        <a class="btn-floating btn-large red">
+            <i class="large material-icons">link</i>
+        </a>
+        <ul>
+            <li><a href="allalbums.html" class="btn-floating yellow darken-1"><i class="material-icons">view_list</i></a></li>
+            <li><a href="Vinyl.html" class="btn-floating green"><i class="material-icons">album</i></a></li>
+        </ul>
+    </div>
+    <!-- Modal Cover -->
+    <div id="inBild" class="modal modal-fullscreen">
+        <div class="modal-content">
+            <h4>Cover</h4>
+            <div id="BildA">
             </div>
         </div>
-    </div>
-    <!--Modal för tracks-->
-    <div class="modal fade" id="inTracks">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title text-center">Tracks</h2>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" width="90%">
-                    <div id="lstTracks">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
+        <div class="modal-footer">
+            <div id="mediaInfo" class="aInfo"></div>
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
         </div>
     </div>
-    <script src="scripts/bootstrap.min.js"></script>
+    <!-- Modal Tracks -->
+    <div id="modalTracks" class="modal">
+        <div class="modal-content">
+            <h4>Tracks</h4>
+            <ul id="lstTracks" class="collection"></ul>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
     <script src="scripts/listsearch.js"></script>
-    <script src="scripts/aes.js"></script>
 </body>
 </html>

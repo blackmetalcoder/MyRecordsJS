@@ -5,6 +5,14 @@
 (function () {
     "use strict";
     document.addEventListener('deviceready', onDeviceReady.bind(this), false);
+    setTimeout(function () {
+        $('.button-collapse').sideNav({
+            menuWidth: 300, // Default is 240
+            closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+        }
+        );
+        $('.collapsible').collapsible();
+    }, 1000);
     $(document).on('click', '#btnBack', function (ev) {
         $("#right").hide();
         $("#left").show();
@@ -17,11 +25,14 @@
         // Handle the Cordova pause and resume events
         document.addEventListener('pause', onPause.bind(this), false);
         document.addEventListener('resume', onResume.bind(this), false);
+        $('.modal').modal();
+        $('.modal-trigger').leanModal();
         checkinlogg();
-    };
+    }
     function checkinlogg() {
-        if (localStorage.inloggad == 'Ja') {
-            $('#info').html('<h4>Welcome: ' + localStorage.namn + '</h4>');
+        if (localStorage.inloggad === 'Ja') {
+            //Materialize.toast('Login you in!', 3000, 'rounded')
+            $('#info').html('<h3>Wellcome <br><br>' + localStorage.namn + '</h3>');
         } else {
             $('#info').html('<strong>You are logged in</strong>');
         }
@@ -73,10 +84,10 @@
     }
     function onPause() {
         // TODO: This application has been suspended. Save application state here.
-    };
+    }
     function onResume() {
         // TODO: This application has been reactivated. Restore application state here.
-    };
+    }
     function mySearch() {
         var input, filter, ul, li, a, i;
         input = document.getElementById("myInput");
@@ -111,8 +122,7 @@
         });
         function successLogin(data) {
             if (data.d === 'NO') {
-               
-               // swal({ title: "Inloggad!", type: "success", text: "Välkommen att gå vidare.", imageUrl: "images/tummenUpp.jpg", showCancelButton: true, confirmButtonColor: "#DD6B55", confirmButtonText: "Gå vidare", closeOnConfirm: false }, function () { window.location.href = "http://blacktv.se/tv.html" });;
+                swal("Something, went wrong!", "Try again!", "error");
             } else {
                 $('#txtUser').val('');
                 $('#txtLosen').val('');
@@ -121,8 +131,8 @@
                 localStorage.id = result[1];
                 localStorage.inloggad = 'Ja';
                 localStorage.namn = result[0];
-                $('#login-modal').modal('hide');
-                $('#info').html('<strong>Welcome: ' + localStorage.namn + '</strong>');
+                $('#modal1').closeModal();
+                $('#info').html('<h3>Wellcome <br><br>' + localStorage.namn + '</h3>');
             }
         }
     }

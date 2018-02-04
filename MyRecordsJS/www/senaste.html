@@ -3,7 +3,7 @@
 <head>
     <access origin="*" />
     <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; media-src *; img-src * filesystem: data:">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap:http://cdmolnet.se 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src; frame-src *">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: http://cdmolnet.se 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src; frame-src *">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
@@ -20,18 +20,12 @@
     <script>
         $(document).ready(function () {
             checkinlogg();
-            $('#btnBack').hide();
-        });
-        $(document).on('click', '#lstA', function (ev) {
-            var uid = $(this).data('id');
-            getAlbumVinyl(uid);
+
         });
         function checkinlogg() {
             if (localStorage.inloggad == 'Ja') {
-                Materialize.toast('Getting your Vinyls!', 2000);
-                getArtistVinyl(localStorage.id);
+                getLatestAlbums();
             } else {
-                Materialize.toast('Logga in eller skapa ett konto så kommer du sidan !!', 3000, 'rounded');
                 window.location.href("index.html");
             }
         }
@@ -47,17 +41,45 @@
             var uid = $(this).data('id');
             getTracks(uid);
         });
+        function getLatestAlbums() {
+            var id = localStorage.id;
+            $.ajax({
+                type: "GET",
+                url: "http://cdmolnet.se/CDService.asmx/senasteInnlagda10?userId=" + id,
+                crossDomain: true,
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: successPlaylist,
+                error: function (msg) {
+
+                }
+            });
+            function successPlaylist(data) {
+                var obj = JSON.parse(data.d);
+                var shtml = '<ul class="collection">';
+                $.each(obj, function (index, item) {
+                    shtml += '<li class="collection-item avatar ram" style="padding-bottom:15px;">';
+                    shtml += '<img src="' + item.Cover + '" class="circle" id="imgA" data-id="' + item.Cover + ';' + item.Artist + ';' + item.album + '">';
+                    shtml += '<span class="title" id="tracks" data-id="' + item.discID + '">' + item.Artist + '</span>';
+                    shtml += '<p><strong>' + item.album + '<br>' + item.Ar + '<br>' + item.Media + '</strong></p>';
+                    shtml += '<a href="#!" class="secondary-content" id="tracks" data-id="' + item.discID + '"><i class="material-icons">playlist_add</i></a></li>';
+                });
+                shtml += '</ul>';
+                $("#pic").html(shtml);
+            }
+        }
+        $(document).on('click', '#btnGetPlaylist', function (ev) {
+            getLatestAlbums();
+
+        });
+
     </script>
     <style>
-        .list-group {
-            list-style: decimal inside;
-        }
-
-        .list-group-item {
-            display: list-item;
-        }
-
         .ram {
+            /*border: 1px solid;
+            padding: 10px;
+            box-shadow: 5px 10px #888888;*/
             -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
             -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
             box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
@@ -66,7 +88,6 @@
             -webkit-border-radius: 15px 15px 15px 15px;
             border: 1px solid #000000;
         }
-
         .modal-fullscreen.open {
             width: 90%;
             max-height: 100%;
@@ -82,35 +103,13 @@
 <body>
     <nav>
         <div class="nav-wrapper black">
-            <a href="#!" class="brand-logo center">All albums</a>
+            <a href="#!" class="brand-logo center">Latest albums</a>
             <ul class="left ">
                 <li><a href="index.html"><i class="material-icons left">home</i></a></li>
             </ul>
-            <ul class="right ">
-                <li><a href="#" id="btnBack"><i class="material-icons right">keyboard_backspace</i></a></li>
-            </ul>
         </div>
     </nav>
-    <div id="mainDiv">
-        <div id="left">
-            <section id="leftsection" class="list-wrap">
-                <input type="text" id="search-text" placeholder="Search" class="search-box">
-                <span class="list-count"></span>
-                <ul id="list" class="ul_search"></ul>
-            </section>
-        </div>
-        <div id="right" style="padding-bottom:70px; padding-top:20px;"></div>
-    </div>
-    <!--snabb länk till CD & Vinyl & Playlist-->
-    <div class="fixed-action-btn horizontal">
-        <a class="btn-floating btn-large red">
-            <i class="large material-icons">link</i>
-        </a>
-        <ul>
-            <li><a href="allalbums.html" class="btn-floating yellow darken-1"><i class="material-icons">view_list</i></a></li>
-            <li><a href="cd.html" class="btn-floating green"><i class="material-icons">adjust</i></a></li>
-        </ul>
-    </div>
+        <div id="pic" style="padding-bottom:70px; padding-top:20px;"></div>
     <!-- Modal Cover -->
     <div id="inBild" class="modal modal-fullscreen">
         <div class="modal-content">
@@ -135,6 +134,5 @@
     </div>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
-    <script type="text/javascript" src="scripts/index.js"></script>
 </body>
 </html>

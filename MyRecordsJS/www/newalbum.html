@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <access origin="*" />
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; media-src *; img-src * filesystem: data:">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: http://cdmolnet.se 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src; frame-src *">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/newalbum.js"></script>
+    <script src="scripts/materialize/materialize.min.js"></script>
+    <title>MyRecords</title>
+    <style>
+        .imgCover {
+            height: 200px;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 40px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .ordna {
+            padding-left: 20px;
+        }
+
+        body {
+            /* background-color: #ffffff;*/
+        }
+    </style>
+</head>
+<body class="blue-grey lighten-5">
+    <nav>
+        <div class="nav-wrapper black">
+            <a href="#!" class="brand-logo center">Add album</a>
+            <ul class="left ">
+                <li><a href="index.html"><i class="material-icons left">home</i></a></li>
+            </ul>
+            <ul class="right ">
+                <li href="#modal1" class="modal-trigger"><a><i class="material-icons left ">search</i></a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="row">
+        <div class="col s12">
+            <form>
+                <img scr="" alt="Cover" id="CoverPic" class="imgCover" />
+
+                <div class="input-field">
+                    <label for="txtArtist">Artist/group:</label>
+                    <input type="text" placeholder="Artist" class="form-control" id="txtArtist" readonly />
+                </div>
+                <div class="input-field">
+                    <label for="album">Album:</label>
+                    <input type="text" placeholder="Album" class="form-control" id="txtAlbum" />
+                </div>
+                <div class="input-field">
+                    <label for="txtReleaseYear">Release year:</label>
+                    <input type="text" placeholder="Release year" class="form-control" id="txtReleaseYear" />
+                </div>
+                <div class="input-field">
+                    <label for="txtGenre:">Genre:</label>
+                    <input type="text" placeholder="Gengre" class="form-control" id="txtGenre" />
+                </div>
+                <div class="input-field">
+                    <label for="txtDiscid:">DiscID:</label>
+                    <input type="text" placeholder="Discid" class="form-control" id="txtDiscid" />
+                </div>
+                <div class="input-field">
+                    <select id="selMedia">
+                        <option value="CD">CD</option>
+                        <option value="Vinyl" selected="selected">Vinyl</option>
+                        <option value="Tape">Tape</option>
+                    </select>
+                    <label>Choose media:</label>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <ul class="collection" id="tracks"></ul>
+        </div>
+    </div>
+    <!--Här läggar vi upp plattan
+    <div id="mainDiv" class="container ordna">
+        <form class="form-inline">
+            <div id="spinnLoader">Searching...</div>
+            <img scr="" alt="Cover" id="CoverPic" class="imgCover" />
+            <div class="form-group">
+                <label for="txtArtist">Artist/group:</label>
+                <input type="text" class="form-control" id="txtArtist" />
+            </div>
+            <div class="form-group">
+                <label for="album">Album:</label>
+                <input type="text" class="form-control" id="txtAlbum" />
+            </div>
+            <div class="form-group">
+                <label for="txtReleaseYear">Release year:</label>
+                <input type="text" class="form-control" id="txtReleaseYear" />
+            </div>
+            <div class="form-group">
+                <label for="txtGenre:">Genre:</label>
+                <input type="text" class="form-control" id="txtGenre" />
+            </div>
+            <div class="form-group">
+                <label for="txtDiscid:">DiscID:</label>
+                <input type="text" class="form-control" id="txtDiscid" />
+            </div>
+            <div class="form-group">
+                <label for="selMedia">Choose media:</label>
+                <select class="form-control" id="selMedia">
+                    <option>CD</option>
+                    <option selected="selected">Vinyl</option>
+                    <option>Tape</option>
+                </select>
+            </div>
+            <ul class="list-group" id="tracks"></ul>
+        </form>-->
+    <!--Här kommer låtarna-->
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h5 class="modal-title text-center">Get album</h5>
+            <div class="progress" id="P1">
+                <div class="indeterminate active"></div>
+            </div>
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="artist">Artist/group:</label>
+                    <input type="text" class="form-control" id="artist" />
+                </div>
+                <div class="form-group">
+                    <label for="album">Album:</label>
+                    <input type="text" class="form-control" id="album" />
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnGetPlaylist">
+                    Search
+                    <i class="material-icons">search</i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red" id="btnSave">
+            <i class="large material-icons">mode_edit</i>
+        </a>
+    </div>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+</body>
+</html>

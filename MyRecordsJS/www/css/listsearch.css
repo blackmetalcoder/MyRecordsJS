@@ -65,7 +65,7 @@ li {
     display: none;
 }
 
-ul {
+.ul_search {
     float: left;
     width: 100%;
     margin: 2em 0;
@@ -73,7 +73,7 @@ ul {
     position: relative;
 }
 
-li {
+.li_search {
     float: left;
     clear: left;
     width: 90%;
