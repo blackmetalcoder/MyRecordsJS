@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <access origin="*" />
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; media-src *; img-src * filesystem: data:">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: http://cdmolnet.se 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src; frame-src *">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/listsearch.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/materialize/materialize.min.js"></script>
+    <script src="scripts/loader.js"></script>
+    <title>Add user</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper black">
+            <a href="#!" class="brand-logo center">New user</a>
+            <ul class="left ">
+                <li><a href="index.html"><i class="material-icons left">home</i></a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="row">
+        <form class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Placeholder" id="Username" type="text" class="validate">
+                    <label for="Username">Username</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="password" type="password" class="validate">
+                    <label for="password">Password</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="name" type="text" class="validate">
+                    <label for="name">Name</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="email" type="email" class="validate">
+                    <label for="email" data-error="wrong" data-success="right">Email</label>
+                </div>
+            </div>
+            <br />
+            <button type="button" class="btn btn-success" id="login">
+                Create user
+                <i class="material-icons">account_circle</i>
+            </button>
+        </form>
+    </div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+    <script type="text/javascript" src="scripts/index.js"></script>
+</body>
+</html>

@@ -43,6 +43,7 @@ table, tr, td {
         width: 100%;
         overflow: auto;
         height: 100vh;
+       
     }
     .list-wrap {
         float: left;

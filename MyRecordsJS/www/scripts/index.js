@@ -5,6 +5,9 @@
 (function () {
     "use strict";
     document.addEventListener('deviceready', onDeviceReady.bind(this), false);
+    $.get("menu.html", function (data) {
+        $("#menu").replaceWith(data);
+    });
     setTimeout(function () {
         $('.button-collapse').sideNav({
             menuWidth: 300, // Default is 240
@@ -28,11 +31,18 @@
         $('.modal').modal();
         $('.modal-trigger').leanModal();
         checkinlogg();
+        var $example1 = $('#title1').hide();
+        var $example2 = $('#title2').hide();
+        $example1.show().arctext({ radius: 45 });
+        $example2.show().arctext({ radius: 45, dir: -1 });
     }
     function checkinlogg() {
         if (localStorage.inloggad === 'Ja') {
             //Materialize.toast('Login you in!', 3000, 'rounded')
-            $('#info').html('<h3>Wellcome <br><br>' + localStorage.namn + '</h3>');
+            //$('#info').html('<br><h4>Wellcome <br><br>' + localStorage.namn + '</h4>');
+            //$('#title2').html(localStorage.namn);
+            //var $example2 = $('#title2').hide();
+            //$example2.show().arctext({ radius: 60, dir: -1 });
         } else {
             $('#info').html('<strong>You are logged in</strong>');
         }
@@ -111,6 +121,7 @@
         var yE = ekrypt(y);
         $.ajax({
             type: "POST",
+            //url: "http://cdmolnet.se/CDService.asmx/EncLogginJS",  //http://localhost:1239/CDService.asmx
             url: "http://cdmolnet.se/CDService.asmx/loggaIn",
             data: "{usernamn:'" + x + "', password: '" + y + "'}",
             contentType: "application/json; charset=utf-8",
@@ -132,13 +143,13 @@
                 localStorage.inloggad = 'Ja';
                 localStorage.namn = result[0];
                 $('#modal1').closeModal();
-                $('#info').html('<h3>Wellcome <br><br>' + localStorage.namn + '</h3>');
+                $('#title2').html(localStorage.namn);
             }
         }
     }
     function ekrypt(vad) {
-        var key = CryptoJS.enc.Utf8.parse('7061737323313233');
-        var iv = CryptoJS.enc.Utf8.parse('7061737323313233');
+        var key = CryptoJS.enc.Utf8.parse('8080808080808080');
+        var iv = CryptoJS.enc.Utf8.parse('8080808080808080');
         var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(vad), key,
             {
                 keySize: 128 / 8,

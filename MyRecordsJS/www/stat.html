@@ -19,6 +19,17 @@
     <script>
         $(document).ready(function () {
             checkinlogg();
+            $.get("menu.html", function (data) {
+                $("#menu").replaceWith(data);
+            });
+            setTimeout(function () {
+                $('.button-collapse').sideNav({
+                    menuWidth: 300, // Default is 240
+                    closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+                }
+                );
+                $('.collapsible').collapsible();
+            }, 1000);
 
         });
         function checkinlogg() {
@@ -115,14 +126,20 @@
     </script>
 </head>
 <body>
-    <nav>
+    <div id="menu"></div>
+    <div class="row z-depth-2 valign-wrapper black white-text" style="padding-left:15px;">
+        <a href="#" data-activates="slide-out" class="button-collapse left-align"><i class="material-icons">menu</i></a>
+        <h4>&nbsp;&nbsp;&nbsp;Statistics</h4>
+
+    </div>
+    <!--<nav>
         <div class="nav-wrapper black">
             <a href="#!" class="brand-logo center">Statistics</a>
             <ul class="left ">
                 <li><a href="index.html"><i class="material-icons left">home</i></a></li>
             </ul>
         </div>
-    </nav>
+    </nav>-->
     <div id="chart-area">
     </div>
     <div id="chart-bar">

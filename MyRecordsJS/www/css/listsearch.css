@@ -168,8 +168,8 @@ h3 {
 .list-wrap {
     float: left;
     width: 60%;
-    margin: 2em 10%;
-    padding: 2em 0;
+    /*margin: 2em 10%;
+    padding: 2em 0; */
 }
 
 p {

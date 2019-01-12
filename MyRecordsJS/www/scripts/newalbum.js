@@ -5,7 +5,18 @@ $(document).ready(function () {
     $('.tooltipped').tooltip({ delay: 50 });
     $('.modal-trigger').leanModal();
     checkinlogg();
-
+    $.get("menu.html", function (data) {
+        $("#menu").replaceWith(data);
+    });
+    setTimeout(function () {
+        $('.button-collapse').sideNav({
+            menuWidth: 300, // Default is 240
+            closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+        }
+        );
+        $('.collapsible').collapsible();
+    }, 1000);
+    $('#P2').hide();
 });
 function checkinlogg() {
     if (localStorage.inloggad === 'Ja') {
@@ -22,17 +33,21 @@ $(document).on('click', '#btnTest', function (ev) {
     Materialize.toast('Hej!', 4000);
 });
 $(document).on('click', '#btnSave', function (ev) {
-    //checkAlbum();
-    saveAlbum();
+    checkAlbum();
+    
 });
 function getAlbum() {
     $('#P1').show();
     var A, AL;
+    //A = encodeURIComponent($('#artist').val());
     A = $('#artist').val();
+    A = A.replace('&', '%26');
     AL = $('#album').val();
     $.ajax({
         type: "GET",
-        url: 'http://cdmolnet.se/CDService.asmx/AlbumTracks?Artist="' + A + '"&Album="' + AL + '"',
+        url: 'http://cdmolnet.se/CDService.asmx/AlbumTracks?Artist="' + encodeURIComponent(A) + '"&Album="' + AL + '"',
+        //url: 'http://cdmolnet.se/CDService.asmx/AlbumTracks',
+        //data: "{Artist:'" + A + "', Album:'" + AL + "'}",
         crossDomain: true,
         async: true,
         contentType: "application/json; charset=utf-8",
@@ -54,7 +69,7 @@ function getAlbum() {
             $('#txtAlbum').val(obj[0].Album);
             $('#txtReleaseYear').val(obj[0].Ar);
             $('#txtGenre').val(obj[0].Genre);
-            $('#txtArtist').val(A);
+            $('#txtArtist').val(decodeURIComponent(A));
             $('#txtDiscid').val(obj[0].Id);
             //Låtar
             var v = obj[0].Lat;
@@ -91,9 +106,9 @@ function checkAlbum() {
         try {
             var obj = JSON.parse(data.d);
             if (obj === false) {
-                Materialize.toast('Album will be saved!', 4000);
+                saveAlbum();
             } else {
-                Materialize.toast('Album will is in collection!', 4000);
+                Materialize.toast('Album is in your collection!', 4000);
             }
         }
         catch (err) {
@@ -102,6 +117,7 @@ function checkAlbum() {
     }
 }
 function saveAlbum() {
+    $('#P2').show();
     var artist = $('#txtArtist').val();
     var album = $('#txtAlbum').val();
     var ar = $('#txtReleaseYear').val();
@@ -119,6 +135,7 @@ function saveAlbum() {
         success: function (msg) {
             if (msg.d === "Sparat") {
                 Materialize.toast('Album saved!', 3000, 'rounded');
+                $('#P2').hide();
             }
         },
         error: function (err) {
@@ -126,31 +143,7 @@ function saveAlbum() {
         }
     })
 }
-/*function successAlbum(data) {
-        try {
-            $('#spinnLoader').removeClass('loader');
-            $('#btnSave').show();
-            var obj = JSON.parse(data.d);
-            //Album info
-            $("#CoverPic").attr("src", obj[0].Coverart);
-            $('#txtAlbum').val(obj[0].Album);
-            $('#txtReleaseYear').val(obj[0].Ar);
-            $('#txtGenre').val(obj[0].Genre);
-            $('#txtArtist').val(A);
-            $('#txtDiscid').val(obj[0].Id);
-            //Låtar
-            var v = obj[0].Lat;
-            var shtml = '';
-            $.each(v, function (index, item) {
-                shtml += '<li class="list-group-item list-group-item-warning"><span class="badge">' + item.Nr + '</span>' + item.Title + '</li>';
-            });
-            $("#tracks").html(shtml);
 
-        }
-        catch (err) {
-            // gör inget
-        }
-    }*/
 
 
 

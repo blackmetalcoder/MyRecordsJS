@@ -16,12 +16,12 @@
             var obj = JSON.parse(data.d);
             var shtml = '';
             $.each(obj, function (index, item) {
-                shtml += '<li class="li_search" id="lstA" data-id="' + item.artist + '">' + item.artist + '</li>';
+                shtml += '<li class="li_search" id="lstA" data-id="' + item.artist + '">' + item.artist + '<span class="badge white">' + item.antal + '</span></li>';
             });
             shtml += ' <span class="empty-item">no results</span>';
 
             $("#list").html(shtml);
-            var jobCount = obj.length;//$('#list .in').length;
+            var jobCount = obj.length;
             $('.list-count').text(jobCount + ' Groups');
         }
         catch (err) {
@@ -31,9 +31,10 @@
 }
 function getAlbum(a) {
     var id = localStorage.id;
+    a = a.replace('&', '%26');
     $.ajax({
         type: "GET",
-        url: 'http://cdmolnet.se/CDService.asmx/getAlbum10?userID=' + id + '&Artist="' + a + '"',
+        url: 'http://cdmolnet.se/CDService.asmx/getAlbum10?userID=' + id + '&Artist="' + encodeURIComponent(a) + '"',
         crossDomain: true,
         async: true,
         contentType: "application/json; charset=utf-8",
@@ -50,7 +51,7 @@ function getAlbum(a) {
             var obj = JSON.parse(data.d);
             var shtml = '<ul class="collection">';
             $.each(obj, function (index, item) {
-                shtml += '<li class="collection-item avatar ram" style="padding-bottom:15px;">';
+                shtml += '<li class="collection-item avatar grey lighten-5" style="border-bottom: outset;border-color: grey;">';                
                 shtml += '<img src="' + item.Cover + '" class="circle" id="imgA" data-id="' + item.Cover + ';' + a + ';' + item.album + '">';
                 shtml += '<span class="title" id="tracks" data-id="' + item.discID + '">' + item.album  + '</span>';
                 shtml += '<p><strong>' + item.Ar + '<br>' + item.Media + '</strong></p>';
@@ -91,7 +92,7 @@ function getArtistVinyl(id) {
             var obj = JSON.parse(data.d);
             var shtml = '';
             $.each(obj, function (index, item) {
-                shtml += '<li class="li_search" id="lstA" data-id="' + item.artistVinyl + '">' + item.artistVinyl + '</li>';
+                shtml += '<li class="li_search" id="lstA" data-id="' + item.artistVinyl + '">' + item.artistVinyl + '<span class="badge white">' + item.antal + '</span></li>';;
             });
             shtml += ' <span class="empty-item">no results</span>';
 
@@ -125,11 +126,13 @@ function getArtistCD(id) {
             var obj = JSON.parse(data.d);
             var shtml;
             $.each(obj, function (index, item) {
-                shtml += '<li class="li_search" id="lstA" data-id="' + item.artistCD + '">' + item.artistCD + '</li>';
+                shtml += '<li class="li_search" id="lstA" data-id="' + item.artistCD + '">' + item.artistCD + '<span class="badge white">' + item.antal + '</span></li>';;
             });
             shtml += ' <span class="empty-item">no results</span>';
-
-            $("#list").html(shtml);
+            var jobCount = obj.length;
+            $('.list-count').text(jobCount + ' Groups');
+            var str = shtml.replace("undefined", "");
+            $("#list").html(str);
         }
         catch (err) {
             // gör inget
@@ -138,9 +141,10 @@ function getArtistCD(id) {
 }
 function getAlbumCD(a) {
     var id = localStorage.id;
+    a = a.replace('&', '%26');
     $.ajax({
         type: "GET",
-        url: 'http://cdmolnet.se/CDService.asmx/getAlbumCD10?userID='  + id + '&Artist="' + a + '"',
+        url: 'http://cdmolnet.se/CDService.asmx/getAlbumCD10?userID=' + id + '&Artist="' + encodeURIComponent(a) + '"',
         crossDomain: true,
         async: true,
         contentType: "application/json; charset=utf-8",
@@ -157,7 +161,7 @@ function getAlbumCD(a) {
             var obj = JSON.parse(data.d);
             var shtml = '<ul class="collection">';
             $.each(obj, function (index, item) {
-                shtml += '<li class="collection-item avatar ram" style="padding-bottom:15px;">';
+                shtml += '<li class="collection-item avatar grey lighten-5" style="border-bottom: outset;border-color: grey;">';
                 shtml += '<img src="' + item.Cover + '" class="circle" id="imgA" data-id="' + item.Cover + ';' + a + ';' + item.album + '">';
                 shtml += '<span class="title" id="tracks" data-id="' + item.discID + '">' + item.album + '</span>';
                 shtml += '<p><strong>' + item.Ar + '<br>' + item.Media + '</strong></p>';
@@ -182,9 +186,10 @@ function getAlbumCD(a) {
 }
 function getAlbumVinyl(a) {
     var id = localStorage.id;
+    a = a.replace('&', '%26');
     $.ajax({
         type: "GET",
-        url: 'http://cdmolnet.se/CDService.asmx/getAlbumVinyl10?userID=' + id + '&Artist="' + a + '"',
+        url: 'http://cdmolnet.se/CDService.asmx/getAlbumVinyl10?userID=' + id + '&Artist="' + encodeURIComponent(a) + '"',
         crossDomain: true,
         async: true,
         contentType: "application/json; charset=utf-8",

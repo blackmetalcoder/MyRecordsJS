@@ -19,6 +19,17 @@
             checkinlogg();
             $('select').material_select();
             $('.modal-trigger').leanModal();
+            $.get("menu.html", function (data) {
+                $("#menu").replaceWith(data);
+            });
+            setTimeout(function () {
+                $('.button-collapse').sideNav({
+                    menuWidth: 300, // Default is 240
+                    closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+                }
+                );
+                $('.collapsible').collapsible();
+            }, 1000);
         });
         function checkinlogg() {
             if (localStorage.inloggad == 'Ja') {
@@ -28,13 +39,44 @@
                 window.location.href("index.html");
             }
         }
+        function getTracks(discID) {
+            var id = localStorage.id;
+            $.ajax({
+                type: "GET",
+                url: 'http://cdmolnet.se/CDService.asmx/getTracks10?userID=' + id + '&DiscID="' + discID + '"',
+                crossDomain: true,
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: successTracks,
+                error: function (msg) {
+
+                    alert(msg.statusText);
+
+                }
+            });
+            function successTracks(data) {
+                try {
+                    var obj = JSON.parse(data.d);
+                    var shtml = '';
+                    $.each(obj, function (index, item) {
+                        shtml += '<li class="collection-item">' + item.track + '</li> ';
+                    });
+                    $('#modalTracks').openModal();
+                    $("#lstTracks").html(shtml);
+                }
+                catch (err) {
+                    // gör inget list-group-item-success
+                }
+            }
+        }
         function getPlaylist() {
 
         }
         $(document).on('click', '#btnGetPlaylist', function (ev) {
             var id = localStorage.id;
             var media = $('#selMedia').val();
-            var iAntal = $('#selAntal').val();
+            var iAntal = $('#test5').val();
             $.ajax({
                 type: "GET",
                 url: "http://cdmolnet.se/CDService.asmx/RandomAlbum?User=1&Media='" + media + "'&antal=" + iAntal,
@@ -52,10 +94,11 @@
                 var obj = JSON.parse(data.d);
 
                 $.each(obj, function (index, item) {
-                    shtml += '<li class="collection-item avatar ram" style="padding-bottom:15px;">';
+                    shtml += '<li class="collection-item avatar grey lighten-5" style="border-bottom: outset;border-color: grey;">';
                     shtml += '<img src="' + item.Cover + '" class="circle" id="imgA" data-id="' + item.Cover + ';' + item.Artist + ';' + item.album + '">';
-                    shtml += '<span class="title" id="tracks" data-id="' + item.discID + '">' + item.Artist + '</span>';
-                    shtml += '<p><strong>' + item.album + '<br>' + item.Media + '</strong></p>';
+                    shtml += '<p><strong>' + item.Artist + '</strong></p>';
+                    shtml += '<span id="tracks" data-id="' + item.discID + '">' + item.album + '</span>';
+                    shtml += '<p><strong>' + item.Ar + '<br>' + item.Media + '</strong></p>';
                     shtml += '<a href="#!" class="secondary-content" id="tracks" data-id="' + item.discID + '"><i class="material-icons">playlist_add</i></a></li>';
                 });
                 shtml += '</ul>';
@@ -70,17 +113,42 @@
         .modal-fullscreen.open {
             width: 90%;
             max-height: 100%;
-            height: 70%;
-            top: 0 !important;
+            height: 75%;
+            top: 10px !important;
+            background-color: lightgrey;
         }
 
         modal-fullscreen > .modal-content {
             height: calc(100% - 150px);
         }
+
+        .modal .modal-footer {
+            border-radius: 0 0 2px 2px;
+            background-color: dimgrey;
+            padding: 4px 6px;
+            height: 70px;
+            width: 100%;
+            text-align: left;
+            color: white;
+            font-weight: 100;
+        }
     </style>
 </head>
 <body>
-    <nav>
+    <div id="menu"></div>
+    <div class="row z-depth-2 valign-wrapper black white-text" style="padding-left:15px; height:45px;">
+        <div class="col s12 m4 l2">
+            <a href="#" data-activates="slide-out" class="button-collapse left-align"><i class="material-icons">menu</i></a>
+        </div>
+        <div class="col s12 m4 l8" style="font-size: 100%;">
+            <strong>Playlist</strong>
+        </div>
+        <ul class="right ">
+            <li href="#modal1" class="modal-trigger"><a><i class="material-icons left ">featured_play_list</i></a></li>
+            <!--<li class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</li>-->
+        </ul>
+    </div>
+    <!--<nav>
         <div class="nav-wrapper black">
             <a href="#!" class="brand-logo center">Playlist</a>
             <ul class="left ">
@@ -88,14 +156,14 @@
             </ul>
             <ul class="right ">
                 <li href="#modal1" class="modal-trigger"><a ><i class="material-icons left ">featured_play_list</i></a></li>
-                <!--<li class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</li>-->
+                <li class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</li>
             </ul>
         </div>
-    </nav>
+    </nav>-->
     <div>
 
         <br />
-        <div id="pic" style="padding-left:25px; padding-bottom:70px; padding-top:70px;" class="block inline-sm"></div>
+        <div id="pic" style="padding-left:5px; padding-bottom:70px;" class="block inline-sm"></div>
     </div>
     <!--modal för bild-->
     <script>
@@ -158,9 +226,9 @@
         });
 
     </script>
-    <div id="modal1" class="modal modal-fullscreen">
+    <div id="modal1" class="modal ">
         <div class="modal-content">
-            Create playlist
+            <b>Create playlist</b> <br>
             <div id='loggaIn'>
                 <div class="input-field" style="padding-left: 50px;">
                     <select id="selMedia">
@@ -170,39 +238,37 @@
                     </select>
                     <label class="black-text" style="padding-left: 50px;">Choose media:</label>
                 </div>
-                <!--Hur många-->
-                <div class="input-field" style="padding-left: 50px;">
-                    <select id="selAntal">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                    </select>
-                    <label class="black-text" style="padding-left: 50px;">Choose media:</label>
-                </div>
-                <div class="col s2 m2">
-                    <a class="waves-effect waves-light btn" id="btnGetPlaylist"><i class="material-icons left">search</i>Create playlist</a>
-                </div>
+                <label class="black-text" style="padding-left: 50px;">How many:</label>
+                <p class="range-field">
+                    <input type="range" id="test5" min="0" max="15" />
+                </p>
+            </div>
+            <div class="col s2 m2">
+                <a class="waves-effect waves-light btn" id="btnGetPlaylist"><i class="material-icons left">search</i>Create playlist</a>
             </div>
         </div>
-
     </div>
+
+
     <!-- Modal Cover -->
-    <div id="inBild" class="modal modal-fullscreen">
+    <div id="inBild" class="modal ">
         <div class="modal-content">
-            <h4>Now playing</h4>
+            <h4>Cover</h4>
             <div id="BildA">
             </div>
         </div>
         <div class="modal-footer">
-            <div id="mediaInfo" class="aInfo"></div>
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
+            <div class="row">
+                <div clss="col s12 m4 l8">
+                    <div id="mediaInfo" class="aInfo">
+                    </div>
+                </div>
+                <div class="col s12 m4 l2">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-red btn grey darken-4">OK</a>
+                </div>
+            </div>
+
+
         </div>
     </div>
     <!-- Modal Tracks -->
@@ -212,7 +278,7 @@
             <ul id="lstTracks" class="collection"></ul>
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            <a href="#!" class="modal-action modal-close waves-effect waves-red btn grey darken-4">OK</a>
         </div>
     </div>
     <script type="text/javascript" src="cordova.js"></script>
